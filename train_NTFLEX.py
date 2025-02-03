@@ -801,8 +801,7 @@ class NTFLEX(nn.Module):
         def TimeAnd3(q1, q2, q3):
             q1_feature, q1_logic, q1_time_feature, q1_time_logic, q1_value_feature, q1_value_logic = q1
             q2_feature, q2_logic, q2_time_feature, q2_time_logic, q2_value_feature, q2_value_logic = q2
-            q2_feature, q2_logic, q2_time_feature, q2_time_logic, q3_value_feature, q3_value_logic = q2
-            q3_feature, q3_logic, q3_time_feature, q3_time_logic = q3
+            q3_feature, q3_logic, q3_time_feature, q3_time_logic, q3_value_feature, q3_value_logic = q3
             feature = torch.stack([q1_feature, q2_feature, q3_feature])
             logic = torch.stack([q1_logic, q2_logic, q3_logic])
             time_feature = torch.stack([q1_time_feature, q2_time_feature, q3_time_feature])
@@ -884,6 +883,7 @@ class NTFLEX(nn.Module):
 
         neural_ops = {
             "And": And,
+            "And3": And3,
             "Or": Or,
             "AttributeValueProjection": AttributeValueProjection2,
             "AttributeReverseProjection": AttributeReverseProjection2,
@@ -895,6 +895,7 @@ class NTFLEX(nn.Module):
             "ValueSmaller": ValueSmaller2,
             "ValueGreater": ValueGreater2,
             "TimeAnd": TimeAnd,
+            "TimeAnd3": TimeAnd3,
             "TimeOr": TimeOr,
             "TimeBefore": TimeBefore,
             "TimeAfter": TimeAfter,
@@ -2019,19 +2020,17 @@ class MyExperiment(Experiment):
 @click.option('--gamma', type=float, default=15.0, help="margin in the loss")
 @click.option('--center_reg', type=float, default=0.02,
               help='center_reg for ConE, center_reg balances the in_cone dist and out_cone dist')
-@click.option('--train_tasks', type=str, default="PRe,PRe2,er2i,"  
-            + "PRt,PRta,PRtb,tr2i,"
-            + "PAe,ea2i,"
-            + "PAt,ta2i,"
-            + "PAx,gPAx,sPAx,gPAxi,sPAxi,gsPAxi", help='the tasks for training')
+@click.option('--train_tasks', type=str, default="PRe,PRe2,PRe3,er2i,er3i,PRt,tr2i,tr3i,"
+            + "PAe,ea2i,ea3i,PAx,PAt,ta2i,ta3i,PRta,PRtb,gPAx,sPAx,gPAxi,sPAxi,gsPAxi," 
+            + "PRe_PAe,PRe_PRt,PAe_PAx,PAe_PAt,PAx_PAe,PAx_PAt,"
+            + "er2i_PRe,PRe_er2i,ea2i_PAe,PAx_ea2i,tr2i_PRe,PRe_tr2i,ta2i_PAe,PAe_ta2i", help='the tasks for training')
 @click.option('--train_all', type=bool, default=False,
               help='if training all, it will use all tasks in data.train_queries_answers')
-@click.option('--eval_tasks', type=str, default="PRe,PRe2,er2i,"  
-            + "PRt,PRta,PRtb,tr2i,"
-            + "PAe,ea2i,"
-            + "PAt,ta2i,"
-            + "PAx,gPAx,sPAx,gPAxi,sPAxi,gsPAxi,"
-            + "ea2u,er2u,tr2u,ta2u,gPAxu,sPAxu,gsPAxu", help='the tasks for evaluation')
+@click.option('--eval_tasks', type=str, default="PRe,PRe2,PRe3,er2i,er3i,PRt,tr2i,tr3i,"
+            + "PAe,ea2i,ea3i,PAx,PAt,ta2i,ta3i,PRta,PRtb,gPAx,sPAx,gPAxi,sPAxi,gsPAxi," 
+            + "PRe_PAe,PRe_PRt,PAe_PAx,PAe_PAt,PAx_PAe,PAx_PAt,"
+            + "er2i_PRe,PRe_er2i,ea2i_PAe,PAx_ea2i,tr2i_PRe,PRe_tr2i,ta2i_PAe,PAe_ta2i,"
+            + "er2u,tr2u,ea2u,ta2u,gPAxu,sPAxu,gsPAxu", help='the tasks for evaluation')
 @click.option('--eval_all', type=bool, default=False,
               help='if evaluating all, it will use all tasks in data.test_queries_answers')
 def main(data_home, dataset, name,

@@ -24,7 +24,7 @@ class WIKI(RelationalTripletDatasetSchema):
         }
 
     def get_dataset_path(self):
-        return self.root_path
+        return self.root_path 
 
 
 class NumericalKnowledgeDatasetCachePath(DatasetCachePath):
@@ -191,6 +191,7 @@ def build_mapping_simple_att(triples_ids: List[Tuple[int, int, int, int]]):
 
     t_sax = defaultdict(set)
     s_xat = defaultdict(set)
+    x_sat = defaultdict(set)
     for s, a, x, t in triples_ids:
         sax_t[s][a][x].add(t)
         sxa_t[s][x][a].add(t)
@@ -206,10 +207,11 @@ def build_mapping_simple_att(triples_ids: List[Tuple[int, int, int, int]]):
         asx_t[a][s][x].add(t)
         t_sax[t].add((s, a, x))
         s_xat[s].add((x, a, t))
+        x_sat[x].add((s, a, t))
     return sax_t, sxa_t, sat_x, sta_x, \
            xas_t, xat_s, xta_s, tas_x, \
            tax_s, ast_x, axt_s, asx_t, \
-           t_sax, s_xat
+           t_sax, s_xat, x_sat
 
 
 def build_mapping_simple_rel(triples_ids: List[Tuple[int, int, int, int]]):
@@ -901,10 +903,10 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
             cache_data(self.train_queries_answers["PAt"], self.cache_path.cache_queries_answers_path("train", "PAt"))
         if "PAt" not in self.valid_queries_answers:
             self.valid_queries_answers["PAt"] = build_one_hop(["e1", "a1", "x1"], valid_sax_t, for_test=True)
-            cache_data(self.train_queries_answers["PAt"], self.cache_path.cache_queries_answers_path("valid", "PAt"))
+            cache_data(self.valid_queries_answers["PAt"], self.cache_path.cache_queries_answers_path("valid", "PAt"))
         if "PAt" not in self.test_queries_answers:
             self.test_queries_answers["PAt"] = build_one_hop(["e1", "a1", "x1"], test_sax_t, for_test=True)
-            cache_data(self.train_queries_answers["PAt"], self.cache_path.cache_queries_answers_path("test", "PAt"))
+            cache_data(self.test_queries_answers["PAt"], self.cache_path.cache_queries_answers_path("test", "PAt"))
         print("PAt",
               "train", len(self.train_queries_answers["PAt"]["queries_answers"]),
               "valid", len(self.valid_queries_answers["PAt"]["queries_answers"]),
@@ -916,10 +918,10 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
             cache_data(self.train_queries_answers["PAe"], self.cache_path.cache_queries_answers_path("train", "PAe"))
         if "PAe" not in self.valid_queries_answers:
             self.valid_queries_answers["PAe"] = build_one_hop(["x1", "a1", "t1"], valid_xat_s, for_test=True)
-            cache_data(self.train_queries_answers["PAe"], self.cache_path.cache_queries_answers_path("valid", "PAe"))
+            cache_data(self.valid_queries_answers["PAe"], self.cache_path.cache_queries_answers_path("valid", "PAe"))
         if "PAe" not in self.test_queries_answers:
             self.test_queries_answers["PAe"] = build_one_hop(["x1", "a1", "t1"], test_xat_s, for_test=True)
-            cache_data(self.train_queries_answers["PAe"], self.cache_path.cache_queries_answers_path("test", "PAe"))
+            cache_data(self.test_queries_answers["PAe"], self.cache_path.cache_queries_answers_path("test", "PAe"))
         print("PAe",
               "train", len(self.train_queries_answers["PAe"]["queries_answers"]),
               "valid", len(self.valid_queries_answers["PAe"]["queries_answers"]),
@@ -931,10 +933,10 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
             cache_data(self.train_queries_answers["PRe"], self.cache_path.cache_queries_answers_path("train", "PRe"))
         if "PRe" not in self.valid_queries_answers:
             self.valid_queries_answers["PRe"] = build_one_hop(["e1", "r1", "t1"], valid_srt_o, for_test=True)
-            cache_data(self.train_queries_answers["PRe"], self.cache_path.cache_queries_answers_path("valid", "PRe"))
+            cache_data(self.valid_queries_answers["PRe"], self.cache_path.cache_queries_answers_path("valid", "PRe"))
         if "PRe" not in self.test_queries_answers:
             self.test_queries_answers["PRe"] = build_one_hop(["e1", "r1", "t1"], test_srt_o, for_test=True)
-            cache_data(self.train_queries_answers["PRe"], self.cache_path.cache_queries_answers_path("test", "PRe"))
+            cache_data(self.test_queries_answers["PRe"], self.cache_path.cache_queries_answers_path("test", "PRe"))
         print("PRe",
               "train", len(self.train_queries_answers["PRe"]["queries_answers"]),
               "valid", len(self.valid_queries_answers["PRe"]["queries_answers"]),
@@ -946,10 +948,10 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
             cache_data(self.train_queries_answers["PRt"], self.cache_path.cache_queries_answers_path("train", "PRt"))
         if "PRt" not in self.valid_queries_answers:
             self.valid_queries_answers["PRt"] = build_one_hop(["e1", "r1", "e2"], valid_sro_t, for_test=True)
-            cache_data(self.train_queries_answers["PRt"], self.cache_path.cache_queries_answers_path("valid", "PRt"))
+            cache_data(self.valid_queries_answers["PRt"], self.cache_path.cache_queries_answers_path("valid", "PRt"))
         if "PRt" not in self.test_queries_answers:
             self.test_queries_answers["PRt"] = build_one_hop(["e1", "r1", "e2"], test_sro_t, for_test=True)
-            cache_data(self.train_queries_answers["PRt"], self.cache_path.cache_queries_answers_path("test", "PRt"))
+            cache_data(self.test_queries_answers["PRt"], self.cache_path.cache_queries_answers_path("test", "PRt"))
         print("PRt",
               "train", len(self.train_queries_answers["PRt"]["queries_answers"]),
               "valid", len(self.valid_queries_answers["PRt"]["queries_answers"]),
@@ -961,19 +963,19 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
         train_xas_t, train_xat_s, train_xta_s, \
         train_tas_x, train_tax_s, \
         train_ast_x, train_axt_s, train_asx_t, \
-        train_t_sax, train_s_xat = build_mapping_simple_att(train_att_triples_ids)
+        train_t_sax, train_s_xat, train_x_sat = build_mapping_simple_att(train_att_triples_ids)
         
         valid_sax_t, valid_sxa_t, valid_sat_x, valid_sta_x, \
         valid_xas_t, valid_xat_s, valid_xta_s, \
         valid_tas_x, valid_tax_s, \
         valid_ast_x, valid_axt_s, valid_asx_t, \
-        valid_t_sax, valid_s_xat = build_mapping_simple_att(train_att_triples_ids + valid_att_triples_ids)
+        valid_t_sax, valid_s_xat, valid_x_sat = build_mapping_simple_att(train_att_triples_ids + valid_att_triples_ids)
         
         test_sax_t, test_sxa_t, test_sat_x, test_sta_x, \
         test_xas_t, test_xat_s, test_xta_s, \
         test_tas_x, test_tax_s, \
         test_ast_x, test_axt_s, test_asx_t, \
-        test_t_sax, test_s_xat = build_mapping_simple_att(train_att_triples_ids + valid_att_triples_ids + test_att_triples_ids)
+        test_t_sax, test_s_xat, test_x_sat = build_mapping_simple_att(train_att_triples_ids + valid_att_triples_ids + test_att_triples_ids)
         
         # 2.1 parser
         train_sro_t, train_sor_t, train_srt_o, train_str_o, \
@@ -989,15 +991,15 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
         # 2.1. parser
         train_parser = SamplingParser(self.entities_ids, relations_ids_with_reverse, attributes_ids_with_reverse, self.values_ids, self.timestamps_ids,
                                                 train_sax_t, train_sxa_t, train_sat_x, train_sta_x, train_xas_t, train_xat_s, train_xta_s, train_tas_x, train_tax_s,
-                                                train_ast_x, train_axt_s, train_asx_t, train_t_sax, train_s_xat, train_sro_t, train_sor_t, train_srt_o, train_str_o, 
+                                                train_ast_x, train_axt_s, train_asx_t, train_t_sax, train_s_xat, train_x_sat, train_sro_t, train_sor_t, train_srt_o, train_str_o, 
                                                 train_ors_t, train_trs_o, train_tro_s, train_rst_o, train_rso_t, train_t_sro, train_o_srt)
         valid_parser = SamplingParser(self.entities_ids, relations_ids_with_reverse, attributes_ids_with_reverse, self.values_ids, self.timestamps_ids,
                                                 valid_sax_t, valid_sxa_t, valid_sat_x, valid_sta_x, valid_xas_t, valid_xat_s, valid_xta_s, valid_tas_x, valid_tax_s,
-                                                valid_ast_x, valid_axt_s, valid_asx_t, valid_t_sax, valid_s_xat, valid_sro_t, valid_sor_t, valid_srt_o, valid_str_o, 
+                                                valid_ast_x, valid_axt_s, valid_asx_t, valid_t_sax, valid_s_xat, valid_x_sat, valid_sro_t, valid_sor_t, valid_srt_o, valid_str_o, 
                                                 valid_ors_t, valid_trs_o, valid_tro_s, valid_rst_o, valid_rso_t, valid_t_sro, valid_o_srt)
         test_parser = SamplingParser(self.entities_ids, relations_ids_with_reverse, attributes_ids_with_reverse, self.values_ids, self.timestamps_ids,
                                                 test_sax_t, test_sxa_t, test_sat_x, test_sta_x, test_xas_t, test_xat_s, test_xta_s, test_tas_x, test_tax_s,
-                                                test_ast_x, test_axt_s, test_asx_t, test_t_sax, test_s_xat, test_sro_t, test_sor_t, test_srt_o, test_str_o, 
+                                                test_ast_x, test_axt_s, test_asx_t, test_t_sax, test_s_xat, test_x_sat, test_sro_t, test_sor_t, test_srt_o, test_str_o, 
                                                 test_ors_t, test_trs_o, test_tro_s, test_rst_o, test_rso_t, test_t_sro, test_o_srt)
 
         # 2.2. sampling
@@ -1005,81 +1007,105 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
         # for union-DM, we don't need to actually generate it.
         # The model should use 2u, up, t-2u, t-up with DM by itself.
         query_structure_name_list = [
-            "PRe", "PRe2", "er2i", "PRt", "PRta", "PRtb", "tr2i", "er2u", "tr2u"
+            "PRe", "PRe2", "PRe3", "er2i", "er3i", "PRt", "PRta", "PRtb", "tr2i", "tr3i", "er2u", "tr2u",
+            "PAe", "ea2i", "ea3i", "PAx", "gPAx", "sPAx", "gPAxi", "sPAxi", "gsPAxi", 
+            "PAt", "ta2i", "ta3i", "ea2u", "ta2u", "gPAxu", "sPAxu", "gsPAxu",
+            "PRe_PAe", "PRe_PRt", "PAe_PAx", "PAe_PAt", "PAx_PAe", "PAx_PAt",
+            "er2i_PRe", "PRe_er2i", "ea2i_PAe", "PAx_ea2i", "tr2i_PRe", "PRe_tr2i", "ta2i_PAe", "PAe_ta2i",
         ] 
-        #"PAe", "ea2i", "PAx", "gPAx", "sPAx", "gPAxi", "sPAxi", "gsPAxi", "PAt", "ta2i", "ea2u", "ta2u", "gPAxu", "sPAxu", "gsPAxu"
+        
         # how many samples should we generate?
         max_sample_count = 5000 #len(build_map_sat_x(train_att_triples_ids))
         train_sample_counts = {
             "PRe" : max_sample_count,
             "PRe2" : max_sample_count,
+            "PRe3" : max_sample_count,
             "er2i" : max_sample_count,
-            #"ea2i" : max_sample_count,
+            "er3i" : max_sample_count,
+            "ea2i" : max_sample_count,
+            "ea3i" : max_sample_count,
             "er2u" : max_sample_count,
-            #"ea2u" : max_sample_count,
-            #"PAe" : max_sample_count,
-            #"PAe2" : max_sample_count, 
-            #"PAx" : max_sample_count, 
-            #"gPAx" : max_sample_count, 
-            #"sPAx" : max_sample_count, 
-            #"gPAxi" : max_sample_count, 
-            #"sPAxi" : max_sample_count, 
-            #"gsPAxi" : max_sample_count,
-            #"PAxe": max_sample_count,
-            #"PAxe2": max_sample_count,
-            #"PAxta": max_sample_count,
-            #"PAxtb": max_sample_count,
-            #"gPAxu" : max_sample_count, 
-            #"sPAxu" : max_sample_count, 
-            #"gsPAxu" : max_sample_count,
+            "ea2u" : max_sample_count,
+            "PAe" : max_sample_count,
+            "PAx" : max_sample_count, 
+            "gPAx" : max_sample_count, 
+            "sPAx" : max_sample_count, 
+            "gPAxi" : max_sample_count, 
+            "sPAxi" : max_sample_count, 
+            "gsPAxi" : max_sample_count,
+            "gPAxu" : max_sample_count, 
+            "sPAxu" : max_sample_count, 
+            "gsPAxu" : max_sample_count,
             "PRt" : max_sample_count,
-            #"PAt" : max_sample_count,  
+            "PAt" : max_sample_count,  
             "PRta" : max_sample_count, 
             "PRtb" : max_sample_count, 
-            "tr2i" : max_sample_count, 
-            #"ta2i" : max_sample_count, 
-            #"PAtxg": max_sample_count,
-            #"PAtxs": max_sample_count,
-            #"PAter": max_sample_count,
-            #"PAtea": max_sample_count,
+            "tr2i" : max_sample_count,
+            "tr3i" : max_sample_count,  
+            "ta2i" : max_sample_count,
+            "ta3i" : max_sample_count, 
             "tr2u" : max_sample_count, 
-            #"ta2u" : max_sample_count
+            "ta2u" : max_sample_count,
+            "er2i_PRe" : max_sample_count,
+            "PRe_er2i" : max_sample_count, 
+            "ea2i_PAe" : max_sample_count, 
+            "PAx_ea2i" : max_sample_count, 
+            "tr2i_PRe" : max_sample_count, 
+            "PRe_tr2i" : max_sample_count, 
+            "ta2i_PAe" : max_sample_count, 
+            "PAe_ta2i" : max_sample_count,
+            "PRe_PAe" : max_sample_count, 
+            "PRe_PRt" : max_sample_count, 
+            "PAe_PAx" : max_sample_count, 
+            "PAe_PAt" : max_sample_count, 
+            "PAx_PAe" : max_sample_count, 
+            "PAx_PAt" : max_sample_count, 
         }
         test_sample_count = 5000 #min(max_sample_count // 30, 10000)
         test_sample_counts = {
             "PRe" : test_sample_count,
             "PRe2" : test_sample_count,
+            "PRe3" : test_sample_count,
             "er2i" : test_sample_count,
-            #"ea2i" : test_sample_count,
+            "er3i" : test_sample_count,
+            "ea2i" : test_sample_count,
+            "ea3i" : test_sample_count,
             "er2u" : test_sample_count,
-            #"ea2u" : test_sample_count,
-            #"PAe" : test_sample_count,
-            #"PAe2" : test_sample_count, 
-            #"PAx" : test_sample_count, 
-            #"gPAx" : test_sample_count, 
-            #"sPAx" : test_sample_count, 
-            #"gPAxi" : test_sample_count, 
-            #"sPAxi" : test_sample_count, 
-            #"gsPAxi" : test_sample_count,
-            #"PAxe": test_sample_count,
-            #"PAxe2": test_sample_count,
-            #"PAxta": test_sample_count,
-            #"PAxtb": test_sample_count,
-            #"gPAxu" : test_sample_count, 
-            #"sPAxu" : test_sample_count, 
-            #"gsPAxu" : test_sample_count,
+            "ea2u" : test_sample_count,
+            "PAe" : test_sample_count,
+            "PAx" : test_sample_count, 
+            "gPAx" : test_sample_count, 
+            "sPAx" : test_sample_count, 
+            "gPAxi" : test_sample_count, 
+            "sPAxi" : test_sample_count, 
+            "gsPAxi" : test_sample_count,
+            "gPAxu" : test_sample_count, 
+            "sPAxu" : test_sample_count, 
+            "gsPAxu" : test_sample_count,
             "PRt" : test_sample_count,
-            #"PAt" : test_sample_count,  
+            "PAt" : test_sample_count,  
             "PRta" : test_sample_count, 
             "PRtb" : test_sample_count, 
-            "tr2i" : test_sample_count, 
-            #"ta2i" : test_sample_count, 
-            #"PAtxg": test_sample_count,
-            #"PAtxs": test_sample_count,
-            #"PAter": test_sample_count,
-            #"PAtea": test_sample_count,
+            "tr2i" : test_sample_count,
+            "tr3i" : test_sample_count,  
+            "ta2i" : test_sample_count,
+            "ta3i" : test_sample_count, 
             "tr2u" : test_sample_count, 
-            #"ta2u" : test_sample_count
+            "ta2u" : test_sample_count,
+            "er2i_PRe" : test_sample_count,
+            "PRe_er2i" : test_sample_count, 
+            "ea2i_PAe" : test_sample_count, 
+            "PAx_ea2i" : test_sample_count, 
+            "tr2i_PRe" : test_sample_count, 
+            "PRe_tr2i" : test_sample_count, 
+            "ta2i_PAe" : test_sample_count, 
+            "PAe_ta2i" : test_sample_count,
+            "PRe_PAe" : test_sample_count, 
+            "PRe_PRt" : test_sample_count, 
+            "PAe_PAx" : test_sample_count, 
+            "PAe_PAt" : test_sample_count, 
+            "PAx_PAe" : test_sample_count, 
+            "PAx_PAt" : test_sample_count, 
         }
 
         def achieve_answers(train_query_structure_func, valid_query_structure_func, test_query_structure_func, for_test=False):
@@ -1254,9 +1280,9 @@ class NumericalComplexQueryData(NumericalKnowledgeData):
 
 
 groups = {
-    "avg_e": ["PAe", "ea2i", "PRe", "PRe2", "er2i"],
-    "avg_t": ["PAt", "PRt", "PRta", "PRtb", "tr2i", "ta2i"],
-    "avg_x": ["PAx", "gPAx", "sPAx", "gPAxi", "sPAxi", "gsPAxi"],
+    "avg_e": ["PAe", "PAe2", "ea2i", "ea3i", "PRe", "PRe2", "PRe3", "er2i", "er3i", "PRe_PAe", "PRe_PRt", "PAe_PAx", "PAe_PAt", "er2i_PRe", "PRe_er2i", "ea2i_PAe", "PRe_tr2i", "PAe_ta2i"],
+    "avg_t": ["PAt", "PRt", "PRta", "PRtb", "tr2i", "ta2i", "tr3i", "ta3i", "tr2i_PRe", "ta2i_PAe"],
+    "avg_x": ["PAx", "gPAx", "sPAx", "gPAxi", "sPAxi", "gsPAxi", "PAx_PAe", "PAx_PAt", "PAx_ea2i"],
     "avg_Ue": ["ea2u", "er2u"],
     "avg_Ut": ["tr2u","ta2u"],
     "avg_Ux": ["gPAxu","sPAxu","gsPAxu"],
