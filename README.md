@@ -14,7 +14,7 @@ cd NTFLEX
 ### Step 2: Create the Conda Environment
 
 ```shell
-conda create --name ntflex python=3.10 && conda activate ntflex
+conda create --name ntflex python=3.9.18 && conda activate ntflex
 ```
 
 ### Step 3: Install Dependencies
@@ -58,7 +58,7 @@ cd NTFLEX/TFLEX
 ### Step 2: Create the Conda Enviroment
 
 ```shell
-conda create --name tflex python=3.10 && conda activate tflex
+conda create --name tflex python=3.9.18 && conda activate tflex
 ```
 
 ### Step 3: Install Dependencies
