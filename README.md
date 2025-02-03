@@ -38,7 +38,7 @@ python train_NTFLEX.py
 The dataset we used was created from a Wikidata dataset by García-Durán et al. (https://github.com/mniepert/mmkb/tree/master/TemporalKGs/wikidata). This data can be found in the folder data/original. We used the Wikidata Rest-API to modify this dataset with following script:
 
 ```shell
-python createDataset.py --access_token=["Enter valid Wikidata-Access-Token"]
+python createDatabase.py --access_token=["Enter valid Wikidata-Access-Token"]
 ```
 
 The modified dataset can be found in data/raw. From this dataset we create a train/test/valid split with the following script:
