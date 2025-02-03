@@ -27,10 +27,10 @@ pip install -r requirements.txt
 
 ### Step 4: Preprocessing the data
 
-The dataset created from Wikidata stores facts as quintuples with subject predicate object time_since time_until. Since our framework uses quadruples we need to preprocess the data. The unprocessed data can be found in data/raw. To preprocess it use following command:
+The dataset created from Wikidata stores facts as quintuples with (subject, predicate/attribute, object/attribute value, since, until). Since our framework uses quadruples we need to preprocess the data. The unprocessed data can be found in data/raw. To preprocess it use following command:
 
 ```shell
-python
+python preprocessData.py
 ```
 Already preprocessed data can be found in data/wiki:
 
