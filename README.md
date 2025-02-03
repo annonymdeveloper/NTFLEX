@@ -25,22 +25,29 @@ To install the required packages, run this command in the NTFLEX folder:
 pip install -r requirements.txt
 ```
 
-### Step 4: Preprocessing the data
-
-The dataset created from Wikidata stores facts as quintuples with (subject, predicate/attribute, object/attribute value, since, until). Since our framework uses quadruples we need to preprocess the data. The unprocessed data can be found in data/raw. To preprocess it use following command:
-
-```shell
-python preprocessData.py
-```
-Already preprocessed data can be found in data/wiki:
-
-### Step 5: Run NTFLEX Experiment
+### Step 4: Run NTFLEX Experiment
 
 To recreate the NTFLEX results published in our paper run following command:
 
 ```shell
 python train_NTFLEX.py
 ```
+
+### Creation of the Dataset
+
+The dataset we used was created from a Wikidata dataset by García-Durán et al. (https://github.com/mniepert/mmkb/tree/master/TemporalKGs/wikidata). This data can be found in the folder data/original. We used the Wikidata Rest-API to modify this dataset with following script:
+
+```shell
+python createDataset.py --access_token=["Enter valid Wikidata-Access-Token"]
+```
+
+The modified dataset can be found in data/raw. This dataset stores facts as quintuples with (subject, predicate/attribute, object/attribute value, since, until). Since our framework uses quadruples we need to preprocess the data. To preprocess it we use following script:
+
+```shell
+python preprocessData.py
+```
+
+The preprocessed data can be found in data/wiki:
 
 ## Recreate TFLEX results
 
