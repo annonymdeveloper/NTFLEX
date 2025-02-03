@@ -44,7 +44,7 @@ python createDataset.py --access_token=["Enter valid Wikidata-Access-Token"]
 The modified dataset can be found in data/raw. From this dataset we create a train/test/valid split with the following script:
 
 ```shell
-python make_train_test_valid.txt
+python make_train_test_valid.py
 ```
 
 This dataset stores facts as quintuples with (subject, predicate/attribute, object/attribute value, since, until). Since our framework uses quadruples we need to preprocess the data. To preprocess it we use following script:
