@@ -122,7 +122,10 @@ To train models based on random initialization:
 				self.loadFromData = False
 				...
 
-2. python transEA.py
+2.
+```shell
+python transEA.py
+```
 
 ### Step 6: Test
 
@@ -138,5 +141,8 @@ To test your models:
 				self.loadFromData = True
 				...
 
-2. python transEA.py
+2.
+   ````shell
+  python transEA.py
+   ```
 
