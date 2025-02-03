@@ -142,7 +142,7 @@ To test your models:
 				...
 
 2.
-   ````shell
-  python transEA.py
-   ```
+```shell
+python transEA.py
+```
 
